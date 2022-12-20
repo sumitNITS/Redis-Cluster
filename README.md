@@ -1,5 +1,5 @@
 # Redis-Cluster-Setup
-This repository is for creating the Redis cluster environment in CentOs8
+This repository is for creating the Redis cluster environment in CentOs 8 
 
 Before going into the actual cluster configuration, let me write little bit of theory here!
 
@@ -21,6 +21,7 @@ Let's now work with the real stuff
 * systemctl status redis
 
 2) Configure the redis.conf file which is under /etc/redis.conf
+
 Edit the following configuration lines in redis.conf
 
 * bind  <IP_OF_YOUR_MACHINE>
@@ -30,7 +31,8 @@ Edit the following configuration lines in redis.conf
 * cluster-config-file nodes-6379.conf
 * cluster-node-timeout 15000
 
-Once you are done with the config changes restart the redis service in all the machines.
+Once you are done with the config changes restart the redis service in all the machines using the command
+* systemctl restart redis
 
 3) Open the port 6397 and 16379 on all the machines
 
@@ -38,11 +40,14 @@ Once you are done with the config changes restart the redis service in all the m
 * firewall-cmd --zone=public --permanent --add-port=16379/tcp 
 * firewall-cmd --reload
 
-4) Create the cluster now using command-line redis-cli --cluster create
+4) Create the cluster using command redis-cli --cluster create
 
 * redis-cli --cluster create <IP_OF_MASTER_1>:6379 <IP_OF_MASTER_2>:6379 <IP_OF_MASTER_3>:6379 <IP_OF_SLAVE_1>:6379 <IP_OF_SLAVE_2>:6379 <IP_OF_SLAVE_3>:6379 --cluster-replicas 1
 
 Here --cluster-replicas 1 means one replica per master and the first slave will replicates the first master and so on in that order.
 
 Cheers, that's all it takes to setup the Redis Cluster.
+
+If you've come so far we can check my medium 
+https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de
 
