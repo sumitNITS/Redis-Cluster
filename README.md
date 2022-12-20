@@ -7,5 +7,5 @@ Redis Cluster is designed to support high levels of read and write operations an
 The configurations for redis cluster below are for 6 nodes (3 nodes will work as master nodes and 3 nodes will work as slave nodes)
 
 ## Prerequisites
-* All servers with centos8 installation \n
+* All servers with centos8 installation 
 * Disable selinux
