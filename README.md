@@ -48,6 +48,6 @@ Here --cluster-replicas 1 means one replica per master and the first slave will 
 
 Cheers, that's all it takes to setup the Redis Cluster.
 
-If you've come so far we can check my medium 
+If you've come so far till this point you can consider reading my blog post about Redis
 https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de
 
