@@ -1,4 +1,4 @@
-# Redis-Cluster-Setup
+# Redis-Cluster
 This repository is for creating the Redis cluster environment in CentOs 8 
 
 Before going into the actual cluster configuration, let me write little bit of theory here!
