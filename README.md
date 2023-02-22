@@ -1,5 +1,5 @@
 # Redis-Cluster
-This repository is for creating the Redis cluster environment in CentOs 8 
+Redis Cluster in CentOS Streams
 
 Before going into the actual cluster configuration, let me write little bit of theory here!
 
