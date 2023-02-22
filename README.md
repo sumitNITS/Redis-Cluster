@@ -51,5 +51,5 @@ Cheers, that's all it takes to setup the Redis Cluster.
 You can also check my blog post Redis Explained in a Simple way
 https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de
 
-#HAProxy
-To understand about HAProxy and it's configuration, you can visit inside "ansible" present above!
+# HAProxy
+To understand more about HAProxy and it's configurations, you can visit inside "ansible" present above!
