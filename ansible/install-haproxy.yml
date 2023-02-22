@@ -1,0 +1,9 @@
+---
+- name: Install and Configure HAProxy
+  hosts: haproxy
+  become: true
+  remote_user: ansible
+
+  roles:
+    - haproxy-role
+

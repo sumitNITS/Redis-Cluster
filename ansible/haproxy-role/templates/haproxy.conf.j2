@@ -1,0 +1,27 @@
+listen Redis_Masters
+     bind            127.0.0.0:6379
+     mode            tcp
+     maxconn         512
+     fullconn        512
+     timeout client  30s
+     timeout server  30s
+     timeout tunnel  12s
+
+    #balance leastconn
+
+     option tcp-smart-accept
+     option tcp-smart-connect
+     option tcpka
+     option tcplog
+     option tcp-check
+     tcp-check connect
+     tcp-check send PING\r\n
+     tcp-check expect string +PONG
+     tcp-check send info\ replication\r\n
+     tcp-check expect string role:master
+     tcp-check send QUIT\r\n
+     tcp-check expect string +OK
+
+     server REDIS01 100.64.188.237:6379 check port 6379 fall 3 rise 3 on-marked-down shutdown-sessions
+     server REDIS02 100.64.188.239:6379 check port 6379 fall 3 rise 3 on-marked-down shutdown-sessions
+     server REDIS03 100.64.188.203:6379 check port 6379 fall 3 rise 3 on-marked-down shutdown-sessions

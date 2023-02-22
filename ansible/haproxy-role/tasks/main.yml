@@ -1,0 +1,29 @@
+---
+# tasks file for haproxy-role
+    - name: Install HAProxy on CentOS
+      yum:
+        name: haproxy
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Install HAProxy on Ubuntu
+      apt:
+        name: haproxy
+        state: latest
+      when: ansible_os_family == "Debian"
+      
+    - name: Backup of original haproxy config file 
+      command: cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bkp 
+
+    - name: Configure haproxy.cfg
+      template:
+        src: haproxy.conf.j2
+        dest: /etc/haproxy/haproxy.cfg
+        mode: '0644'
+      notify: Restart haproxy
+
+    - name: Enable and start haproxy service
+      systemd:
+        name: haproxy
+        state: started
+        enabled: yes

@@ -1,0 +1,12 @@
+---
+# vars file for haproxy-role
+    backend_servers:
+      - name: redis-master-1
+        ip: 100.64.188.237
+        port: 6379
+      - name: redis-master-2
+        ip: 100.64.188.239
+        port: 6379
+      - name: redis-master-3
+        ip: 100.64.188.203
+        port: 6379
