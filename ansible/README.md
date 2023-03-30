@@ -31,6 +31,6 @@ The haproxy-role structure is given below, one can modify each section based on 
 This ansible role can be used to Install and Configure haproxy in different linux distro's including CentOS and Ubuntu.
 In order To use HAProxy with the Redis cluster, the configuration file of HAProxy needs to be modified to listen on a specific port and to route traffic to the correct Redis nodes. The configuration file (haproxy.conf.j2) includes a list of backend servers with their IP addresses and port numbers. At the time of test I have kept the redis master servers as the backend servers (Inside "vars", main.yml file).  
 
-Once the configuration file is updated the HAProxy service can be started and tested to ensure that it is correctly distributing traffic to the Redis nodes. Refer to "haproxy images" for analyzing the demo work done. By using HAProxy with a Redis cluster one can improve the performance, availability, and security of Redis service, hence it makes Redis more reliable and scalable.
+Once the configuration file is updated the HAProxy service can be started and tested to ensure that it is correctly distributing traffic to the Redis nodes. Check the image below for analyzing the work done. By using HAProxy with a Redis cluster one can improve the performance, availability, and security of Redis service, hence it makes Redis more reliable and scalable.
 
 ![HAProxy test](https://user-images.githubusercontent.com/37767537/228924447-f704004a-b070-46c2-84e0-ac130e4e0a68.png)
