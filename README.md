@@ -15,10 +15,18 @@ Let's now work with the real stuff
 
 1) Install redis on all the 6 nodes and start the service using the command below
 
-* dnf module install redis
-* systemctl start redis
-* systemctl enable redis
-* systemctl status redis
+```bash
+dnf module install redis
+```
+```bash
+systemctl start redis
+```
+```bash
+systemctl enable redis
+```
+```bash
+systemctl status redis
+```
 
 2) Configure the redis.conf file which is under /etc/redis.conf
 
