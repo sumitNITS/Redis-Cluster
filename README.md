@@ -83,6 +83,8 @@ firewall-cmd --reload
 redis-cli --cluster create <IP_OF_MASTER_1>:6379 <IP_OF_MASTER_2>:6379 <IP_OF_MASTER_3>:6379 <IP_OF_SLAVE_1>:6379 <IP_OF_SLAVE_2>:6379 <IP_OF_SLAVE_3>:6379 --cluster-replicas 1
 ```
 
+![cluster-setup-centos8](https://user-images.githubusercontent.com/37767537/228921795-7450d2e3-0662-4dc1-a8e1-0fcd35a34c0c.png)
+
 Here --cluster-replicas 1 means one replica per master and the first slave will replicates the first master and so on in that order.
 
 Cheers, that's all it takes to setup the Redis Cluster.
