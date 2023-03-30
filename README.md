@@ -65,20 +65,29 @@ systemctl restart redis
 
 3) Open the port 6397 and 16379 on all the machines
 
-* firewall-cmd --zone=public --permanent --add-port=6379/tcp 
-* firewall-cmd --zone=public --permanent --add-port=16379/tcp 
-* firewall-cmd --reload
+```bash
+firewall-cmd --zone=public --permanent --add-port=6379/tcp
+```
+
+```bash
+firewall-cmd --zone=public --permanent --add-port=16379/tcp
+```
+
+```bash
+firewall-cmd --reload
+```
 
 4) Create the cluster using command redis-cli --cluster create
 
-* redis-cli --cluster create <IP_OF_MASTER_1>:6379 <IP_OF_MASTER_2>:6379 <IP_OF_MASTER_3>:6379 <IP_OF_SLAVE_1>:6379 <IP_OF_SLAVE_2>:6379 <IP_OF_SLAVE_3>:6379 --cluster-replicas 1
+```bash
+redis-cli --cluster create <IP_OF_MASTER_1>:6379 <IP_OF_MASTER_2>:6379 <IP_OF_MASTER_3>:6379 <IP_OF_SLAVE_1>:6379 <IP_OF_SLAVE_2>:6379 <IP_OF_SLAVE_3>:6379 --cluster-replicas 1
+```
 
 Here --cluster-replicas 1 means one replica per master and the first slave will replicates the first master and so on in that order.
 
 Cheers, that's all it takes to setup the Redis Cluster.
 
-You can also check my blog post Redis Explained in a Simple way
-https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de
+![You can also check my blog post Redis Explained in a Simple way in Medium](https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de)
 
 # HAProxy
-To understand more about HAProxy and it's configurations, you can visit inside "ansible" present above!
+To understand more about HAProxy and it's configurations, you can visit ![ansible](https://github.com/sumitNITS/Redis-Cluster/tree/main/ansible) present above!
