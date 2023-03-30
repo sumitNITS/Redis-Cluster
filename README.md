@@ -87,7 +87,8 @@ Here --cluster-replicas 1 means one replica per master and the first slave will 
 
 Cheers, that's all it takes to setup the Redis Cluster.
 
-![You can also check my blog post Redis Explained in a Simple way in Medium](https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de)
+You can also check my blog post Redis Explained in a Simple way
+https://medium.com/@krsumit449/redis-explained-in-a-simple-way-aef2abc7c5de)
 
 # HAProxy
-To understand more about HAProxy and it's configurations, you can visit ![ansible](https://github.com/sumitNITS/Redis-Cluster/tree/main/ansible) present above!
+To understand more about HAProxy and it's configurations, you can visit "ansible" present above!
