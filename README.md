@@ -1,4 +1,4 @@
-# Redis-Cluster
+# Redis Cluster with HAProxy
 
 Redis Cluster in CentOS Streams
 
