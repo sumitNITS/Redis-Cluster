@@ -13,17 +13,20 @@ The configurations for redis cluster below are for 6 nodes (3 nodes will work as
 
 Let's now work with the real stuff
 
-1) Install redis on all the 6 nodes and start the service using the command below
+1) Install redis on all the 6 nodes and start the service using the commands below
 
 ```bash
 dnf module install redis
 ```
+
 ```bash
 systemctl start redis
 ```
+
 ```bash
 systemctl enable redis
 ```
+
 ```bash
 systemctl status redis
 ```
@@ -32,15 +35,35 @@ systemctl status redis
 
 Edit the following configuration lines in redis.conf
 
-* bind  <IP_OF_YOUR_MACHINE>
-* protected-mode no
-* port 6379
-* cluster-enabled yes
-* cluster-config-file nodes-6379.conf
-* cluster-node-timeout 15000
+```bash
+bind  <IP_OF_YOUR_MACHINE>
+```
+
+```bash
+protected-mode no
+```
+
+```bash
+port 6379
+```
+
+```bash
+cluster-enabled yes
+```
+
+```bash
+cluster-config-file nodes-6379.conf
+```
+
+```bash
+cluster-node-timeout 15000
+```
 
 Once you are done with the config changes restart the redis service in all the machines using the command
-* systemctl restart redis
+
+```bash
+systemctl restart redis
+```
 
 3) Open the port 6397 and 16379 on all the machines
 
