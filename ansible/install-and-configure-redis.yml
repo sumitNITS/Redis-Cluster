@@ -1,0 +1,108 @@
+---
+- name: Install and Configure Redis on Centos Stream
+  hosts: all
+  become: true
+  tasks:
+  - name: Install EPEL repository
+    yum:
+      name: epel-release
+      state: present
+  
+  - name: Disable the SELinux Configuration
+    replace:
+      path: /etc/selinux/config
+      regexp: '^(SELINUX.*)$'
+      replace: 'SELINUX=disabled'
+  
+  - name: Reload the SELinux Configuration
+    command: setenforce 0
+    become: yes
+    register: selinux_reload
+  
+  - name: Display the SELinux Configuration Reload Result
+    debug:
+      var: selinux_reload.stdout_lines
+
+  - name: Install Redis 
+    yum:
+      name: redis
+      state: present
+
+  - name: Backup of Redis.conf file
+    command: cp /etc/redis.conf /etc/redis_backup.conf
+
+  - name: Start and enable Redis service
+    service:
+      name: redis
+      state: started
+      enabled: yes
+
+  - name: Configure bind in Redis
+    become: true
+    replace:
+      path: /etc/redis.conf
+      regexp: '^(bind.*)$'
+      replace: 'bind 127.0.0.1 <machine-ip-address>'
+    notify:
+      - Restart Redis
+
+  - name: Configure Protected-mode in Redis
+    become: true
+    replace:
+      path: /etc/redis.conf
+      regexp: '^(protected-mode.*)$'
+      replace: 'protected-mode no'
+    notify:
+      - Restart Redis
+
+  - name: Configure Port in Redis
+    become: true
+    replace:
+      path: /etc/redis.conf
+      regexp: '^(port.*)$'
+      replace: 'port 6379'
+    notify:
+      - Restart Redis
+
+  - name: Configure requirepass in Redis
+    become: true
+    lineinfile:
+      path: /etc/redis.conf
+      regexp: '^(requirepass.*)$'
+      line: 'requirepass Password'
+      state: present
+    notify:
+      - Restart Redis
+
+  - name: Configure loglevel in Redis
+    become: true
+    replace:
+      path: /etc/redis.conf
+      regexp: '^(loglevel.*)$'
+      replace: 'loglevel notice'
+    notify:
+      - Restart Redis
+
+  - name: Configure logfile in Redis
+    become: true
+    replace:
+      path: /etc/redis.conf
+      regexp: '^(logfile.*)$'
+      replace: 'logfile /var/log/redis/redis.log'
+    notify:
+      - Restart Redis
+
+  - name: Configure supervised in Redis
+    become: true
+    replace:
+      path: /etc/redis.conf
+      regexp: '^(supervised.*)$'
+      replace: 'supervised systemd'
+    notify:
+      - Restart Redis
+
+  handlers:
+  - name: Restart Redis
+    service:
+      name: redis
+      state: restarted

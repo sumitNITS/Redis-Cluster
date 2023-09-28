@@ -1,0 +1,53 @@
+---
+# tasks file for redis-role
+    # - name: Install Redis on RedHat-based systems
+    #   when: ansible_os_family == "RedHat"
+    #   yum:
+    #     name: redis
+    #     state: present
+
+    # - name: Install Redis on Debian-based systems
+    #   when: ansible_os_family == "Debian"
+    #   apt:
+    #     name: redis
+    #     state: present
+
+    - name: Install Redis in CentOS
+      package:
+        name: redis
+        state: present
+      when: ansible_distribution == 'CentOS'
+
+    - name: Install Redis in Ubuntu
+      apt:
+        name: redis-server
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Backup Redis Config File in CentOS
+      command: cp /etc/redis.conf /etc/redis.conf.bkp
+      when: ansible_distribution == 'CentOS'
+
+    - name: Backup Redis Config File in Ubuntu
+      command: cp /etc/redis/redis.conf /etc/redis/redis.conf.bkp
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Configure Redis in CentOS 
+      template:
+        src: "redis.conf.j2"
+        dest: "/etc/redis.conf"
+      when: ansible_distribution == 'CentOS'
+      notify: Restart Redis
+
+    - name: Configure Redis in Ubuntu
+      template:
+        src: "redis.conf.j2"
+        dest: "/etc/redis/redis.conf"
+      when: ansible_distribution == 'Ubuntu'
+      notify: Restart Redis
+
+    - name: Start and Enable Redis
+      service:
+        name: redis
+        state: started
+        enabled: yes

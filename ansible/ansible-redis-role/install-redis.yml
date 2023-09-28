@@ -1,0 +1,9 @@
+---
+- name: Install and Configure Redis
+  hosts: redis
+  become: true
+  remote_user: ansible
+
+  roles:
+    - redis-role
+

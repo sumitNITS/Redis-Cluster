@@ -1,0 +1,282 @@
+---
+#Redis Installation and Configurations
+- name: Install and configure Redis In CentOS Stream
+  hosts: all
+  become: yes
+  tasks:
+  - name: Install the EPEL repository
+    yum:
+      name: epel-release
+      state: present
+  
+  - name: Disable the SELinux Configuration
+    replace:
+      path: /etc/selinux/config
+      regexp: '^(SELINUX.*)$'
+      replace: 'SELINUX=disabled'
+  
+  - name: Reload the SELinux Configuration
+    command: setenforce 0
+    become: yes
+    register: selinux_reload
+  
+  - name: Display the SELinux Configuration Reload Result
+    debug:
+      var: selinux_reload.stdout_lines
+
+  - name: Install Redis 
+    yum:
+      name: redis
+      state: present
+
+  - name: Backup of Redis.conf file
+    command: cp /etc/redis.conf /etc/redis_backup.conf
+
+  - name: Start and enable Redis
+    service:
+      name: redis
+      state: started
+      enabled: yes
+
+#Cluster Configurations (3 Machines will work as Masters and 3 will work as Slaves)
+- name: Redis Cluster Configuration in Machine1
+  hosts: <ip-of-the-machine-1>
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:  
+    - name: Insert configuration bind section
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^bind.*'
+        line: 'bind <ip-of-the-machine-1>'
+        state: present
+
+    - name: Replace protected mode setting to "no"
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        state: present
+    
+    - name: Adding Redis Cluster Configuration
+      lineinfile:
+        dest: /etc/redis.conf
+        line: "cluster-enabled yes"
+        state: present
+
+    - name: Set cluster-config-file in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-config-file nodes-6379.conf'
+        state: present
+
+    - name: Set cluster-node-timeout in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-node-timeout 15000'
+        state: present
+
+- name: Redis Cluster Configuration in Machine2
+  hosts: <ip-of-the-machine-2>
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:  
+    - name: Insert configuration bind section
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^bind.*'
+        line: 'bind <ip-of-the-machine-2>'
+        state: present
+    
+    - name: Replace protected mode setting to "no"
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        state: present
+
+    - name: Adding Redis Cluster Configuration
+      lineinfile:
+        dest: /etc/redis.conf
+        line: "cluster-enabled yes"
+        state: present
+
+    - name: Set cluster-config-file in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-config-file nodes-6379.conf'
+        state: present
+
+    - name: Set cluster-node-timeout in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-node-timeout 15000'
+        state: present
+
+- name: Redis Cluster Configuration in Machine3
+  hosts: <ip-of-the-machine-3>
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:  
+    - name: Insert configuration bind section
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^bind.*'
+        line: 'bind <ip-of-the-machine-3>'
+        state: present
+
+    - name: Replace protected mode setting to "no"
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        state: present
+    
+    - name: Adding Redis Cluster Configuration
+      lineinfile:
+        dest: /etc/redis.conf
+        line: "cluster-enabled yes"
+        state: present
+
+    - name: Set cluster-config-file in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-config-file nodes-6379.conf'
+        state: present
+
+    - name: Set cluster-node-timeout in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-node-timeout 15000'
+        state: present
+
+- name: Redis Cluster Configuration in Machine4
+  hosts: <ip-of-the-machine-4>
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:  
+    - name: Insert configuration bind section
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^bind.*'
+        line: 'bind <ip-of-the-machine-4>'
+        state: present
+    
+    - name: Replace protected mode setting to "no"
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        state: present
+
+    - name: Adding Redis Cluster Configuration
+      lineinfile:
+        dest: /etc/redis.conf
+        line: "cluster-enabled yes"
+        state: present
+
+    - name: Set cluster-config-file in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-config-file nodes-6379.conf'
+        state: present
+
+    - name: Set cluster-node-timeout in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-node-timeout 15000'
+        state: present
+
+- name: Redis Cluster Configuration in Machine5
+  hosts: <ip-of-the-machine-5>
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:  
+    - name: Insert configuration bind section
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^bind.*'
+        line: '<ip-of-the-machine-5>'
+        state: present
+
+    - name: Replace protected mode setting to "no"
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        state: present
+    
+    - name: Adding Redis Cluster Configuration
+      lineinfile:
+        dest: /etc/redis.conf
+        line: "cluster-enabled yes"
+        state: present
+
+    - name: Set cluster-config-file in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-config-file nodes-6379.conf'
+        state: present
+
+    - name: Set cluster-node-timeout in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-node-timeout 15000'
+        state: present
+
+- name: Redis Cluster Configuration in Machine6
+  hosts: <ip-of-the-machine-6>
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:  
+    - name: Insert configuration bind section
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^bind.*'
+        line: 'bind <ip-of-the-machine-6>'
+        state: present
+    
+    - name: Replace protected mode setting to "no"
+      lineinfile:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        state: present
+
+    - name: Adding Redis Cluster Configuration
+      lineinfile:
+        dest: /etc/redis.conf
+        line: "cluster-enabled yes"
+        state: present
+
+    - name: Set cluster-config-file in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-config-file nodes-6379.conf'
+        state: present
+
+    - name: Set cluster-node-timeout in redis.conf
+      lineinfile:
+        dest: /etc/redis.conf
+        line: 'cluster-node-timeout 15000'
+        state: present
+
+#Restart Redis for all the machines
+- name: Restart redis.service for all servers
+  hosts: all
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:
+    - name: Restart Redis Service
+      service:
+        name: redis
+        state: restarted
+
+  
